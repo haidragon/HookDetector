@@ -10,22 +10,6 @@
 #define detector_h
 
 #import <objc/runtime.h>
-#import <objc/message.h>
-
-//void ListMethods(Class cls);
-//
-//void ListImages();
-//
-//void ListClassNameForImage(const char* image);
-//
-//const char* GetImageForClass(Class cls);
-//
-//void ListMethodForClass(Class cls);
-//
-//bool isImplementedInClass(IMP imp, Class class);
-//
-//bool isMethodImplementedInClass(const Method method, const SEL sel, const Class cls);
-
 
 static inline void report(const char *func, const char *hook_func) {
     NSLog(@"DETECTED: %s hooked by %s", func, hook_func);
@@ -80,7 +64,6 @@ static void storeClassOriginalIMPs(Class cls, NSMutableDictionary *originalIMPDi
         const char* selName = sel_getName(sel);
         IMP imp = method_getImplementation(method);
         if (selName) {
-//            NSLog(@"    Method: %s", selName);
             [originalIMPDict setValue:[[IMPBox alloc] initWithIMP:imp] forKey:[NSString stringWithFormat:@"%s", selName]];
         }
     }
@@ -98,7 +81,6 @@ static void checkClassInstanceIMPs(Class cls, NSMutableDictionary *originalIMPDi
         const char* selName = sel_getName(sel);
         IMP imp = method_getImplementation(method);
         if (selName) {
-//            NSLog(@"    Method: %s", selName);
             IMPBox *impBox = originalIMPDict[[NSString stringWithFormat:@"%s", selName]];
             if (impBox != nil) {
                 if ((int)impBox->originalIMP != (int)imp) {
